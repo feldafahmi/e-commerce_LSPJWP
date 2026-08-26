@@ -27,4 +27,9 @@ Homestead.yaml
 Thumbs.db
 AGENTS.md
 CLAUDE.md
-ide.txt
+ide
+.agents
+.claude
+opencode.json
+boost.json
+.mcp.json

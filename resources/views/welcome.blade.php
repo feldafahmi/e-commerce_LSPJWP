@@ -78,7 +78,7 @@
                         ['Jam Tangan Klasik', 'Rp279.000', 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=85'],
                     ] as [$name, $price, $image])
                         <article class="group">
-                            <a class="block overflow-hidden rounded-2xl bg-[#f0eeed]" href="#"><img class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" src="{{ $image }}" alt="{{ $name }}"></a>
+                            <a class="block overflow-hidden rounded-2xl bg-[#f0eeed]" href="{{ route('products.show', ['product' => 1]) }}"><img class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" src="{{ $image }}" alt="{{ $name }}"></a>
                             <h3 class="mt-3 text-sm font-bold sm:text-base">{{ $name }}</h3>
                             <div class="mt-1 flex items-center gap-1 text-xs text-amber-500"><span aria-hidden="true">★★★★★</span><span class="ml-1 text-zinc-500">4.8/5</span></div>
                             <p class="mt-1 font-bold">{{ $price }}</p>

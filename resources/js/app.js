@@ -28,3 +28,64 @@ document.querySelectorAll('.quantity-button').forEach((button) => {
         quantity.textContent = nextQuantity;
     });
 });
+
+const cartItems = document.querySelectorAll('.cart-item');
+const subtotalElement = document.querySelector('#cart-subtotal');
+const discountElement = document.querySelector('#cart-discount');
+const totalElement = document.querySelector('#cart-total');
+const emptyCartMessage = document.querySelector('#empty-cart');
+
+const formatRupiah = (amount) => `Rp${amount.toLocaleString('id-ID')}`;
+
+const updateCartSummary = () => {
+    let subtotal = 0;
+    let visibleItems = 0;
+
+    cartItems.forEach((item) => {
+        if (!item.classList.contains('hidden')) {
+            subtotal += Number(item.dataset.price) * Number(item.querySelector('.item-quantity').textContent);
+            visibleItems += 1;
+        }
+    });
+
+    const discount = subtotal * 0.1;
+    subtotalElement.textContent = formatRupiah(subtotal);
+    discountElement.textContent = `-${formatRupiah(discount)}`;
+    totalElement.textContent = formatRupiah(subtotal - discount);
+    emptyCartMessage.classList.toggle('hidden', visibleItems !== 0);
+};
+
+document.querySelectorAll('.cart-quantity').forEach((button) => {
+    button.addEventListener('click', () => {
+        const item = button.closest('.cart-item');
+        const itemQuantity = item.querySelector('.item-quantity');
+        const currentQuantity = Number(itemQuantity.textContent);
+        const nextQuantity = button.dataset.action === 'increase' ? currentQuantity + 1 : Math.max(1, currentQuantity - 1);
+
+        itemQuantity.textContent = nextQuantity;
+        updateCartSummary();
+    });
+});
+
+document.querySelectorAll('.remove-cart-item').forEach((button) => {
+    button.addEventListener('click', () => {
+        button.closest('.cart-item').classList.add('hidden');
+        updateCartSummary();
+    });
+});
+
+if (cartItems.length > 0) {
+    updateCartSummary();
+}
+
+document.querySelectorAll('.payment-radio').forEach((radio) => {
+    radio.addEventListener('change', () => {
+        document.querySelectorAll('.payment-option').forEach((option) => {
+            option.classList.remove('border-black', 'border-2', 'bg-zinc-50');
+            option.classList.add('border', 'border-zinc-200');
+        });
+
+        radio.closest('.payment-option').classList.add('border-black', 'border-2', 'bg-zinc-50');
+        radio.closest('.payment-option').classList.remove('border-zinc-200', 'border');
+    });
+});

@@ -11,6 +11,14 @@ Route::get('/produk/{product}', function (string $product) {
     return view('products.show', ['productId' => $product]);
 })->name('products.show');
 
+Route::get('/keranjang', function () {
+    return view('cart.index');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return view('checkout.index');
+})->name('checkout');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');

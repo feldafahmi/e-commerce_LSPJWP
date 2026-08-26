@@ -12,27 +12,7 @@
             Gratis ongkir untuk pesanan pertama Anda. <a class="ml-1 underline underline-offset-2" href="#produk">Belanja sekarang</a>
         </div>
 
-        <header class="border-b border-zinc-200 bg-white">
-            <div class="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-5 lg:px-8">
-                <a class="text-2xl font-black tracking-[-0.08em] sm:text-3xl" href="{{ route('home') }}">SHOP.CO</a>
-                <nav class="hidden items-center gap-7 text-sm font-medium lg:flex" aria-label="Navigasi utama">
-                    <a class="transition hover:text-zinc-500" href="{{ route('home') }}">Beranda</a>
-                    <a class="transition hover:text-zinc-500" href="#produk">Produk</a>
-                    <a class="transition hover:text-zinc-500" href="#kategori">Kategori</a>
-                </nav>
-                <form class="hidden max-w-sm flex-1 md:block" role="search">
-                    <label class="sr-only" for="product-search">Cari produk</label>
-                    <div class="flex items-center gap-2 rounded-full bg-zinc-100 px-4 py-2.5 text-zinc-500">
-                        <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4-4"/></svg>
-                        <input id="product-search" class="w-full bg-transparent text-sm outline-none placeholder:text-zinc-400" type="search" placeholder="Cari produk...">
-                    </div>
-                </form>
-                <div class="flex items-center gap-2 text-sm font-semibold">
-                    <a class="rounded-full px-4 py-2.5 transition hover:bg-zinc-100" href="/login">Masuk</a>
-                    <a class="rounded-full bg-black px-4 py-2.5 text-white transition hover:bg-zinc-700" href="/register">Daftar</a>
-                </div>
-            </div>
-        </header>
+        <x-storefront-header />
 
         <main>
             <section class="overflow-hidden bg-[#f2f0f1]">
@@ -68,10 +48,14 @@
             <section id="produk" class="mx-auto max-w-7xl px-5 py-16 sm:py-22 lg:px-8">
                 <div class="mb-9 flex items-end justify-between gap-4">
                     <div><p class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Pilihan minggu ini</p><h2 class="mt-2 text-3xl font-black tracking-[-0.05em] sm:text-4xl">PRODUK TERBARU</h2></div>
-                    <a class="text-sm font-semibold underline underline-offset-4" href="#">Lihat semua</a>
+                    <a class="text-sm font-semibold underline underline-offset-4" href="{{ route('home') }}#produk">Lihat semua</a>
                 </div>
                 <div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-5">
-                    @foreach ([
+                     @forelse ($products ?? collect() as $product)
+                         @php($image = $product->image && filter_var($product->image, FILTER_VALIDATE_URL) ? $product->image : ($product->image ? asset('storage/'.$product->image) : 'https://placehold.co/600x600/f0eeed/111?text=SHOP'))
+                         <article class="group"><a class="block overflow-hidden rounded-2xl bg-[#f0eeed]" href="{{ route('products.show', ['product' => $product]) }}"><img class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" src="{{ $image }}" alt="{{ $product->name }}"></a><h3 class="mt-3 text-sm font-bold sm:text-base">{{ $product->name }}</h3><p class="mt-1 font-bold">Rp{{ number_format($product->price, 0, ',', '.') }}</p></article>
+                     @empty
+                         @foreach ([
                         ['Kemeja Linen Santai', 'Rp189.000', 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=600&q=85'],
                         ['Tas Kulit Esensial', 'Rp325.000', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=85'],
                         ['Sneakers Harian', 'Rp429.000', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=85'],
@@ -83,7 +67,8 @@
                             <div class="mt-1 flex items-center gap-1 text-xs text-amber-500"><span aria-hidden="true">★★★★★</span><span class="ml-1 text-zinc-500">4.8/5</span></div>
                             <p class="mt-1 font-bold">{{ $price }}</p>
                         </article>
-                    @endforeach
+                         @endforeach
+                     @endforelse
                 </div>
             </section>
 
@@ -91,9 +76,11 @@
                 <div class="rounded-3xl bg-[#f0eeed] p-6 sm:p-10">
                     <h2 class="text-center text-3xl font-black tracking-[-0.05em] sm:text-4xl">BELANJA BERDASARKAN KATEGORI</h2>
                     <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                        <a class="group relative min-h-52 overflow-hidden rounded-2xl bg-white p-5" href="#"><img class="absolute inset-0 size-full object-cover opacity-80 transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=85" alt="Kategori fesyen"><span class="relative text-xl font-bold">Fesyen</span></a>
-                        <a class="group relative min-h-52 overflow-hidden rounded-2xl bg-white p-5" href="#"><img class="absolute inset-0 size-full object-cover opacity-80 transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=85" alt="Kategori kecantikan"><span class="relative text-xl font-bold">Kecantikan</span></a>
-                        <a class="group relative min-h-52 overflow-hidden rounded-2xl bg-white p-5 sm:col-span-3" href="#"><img class="absolute inset-0 size-full object-cover opacity-80 transition duration-500 group-hover:scale-105" src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=1200&q=85" alt="Kategori rumah dan gaya hidup"><span class="relative text-xl font-bold">Rumah & Gaya Hidup</span></a>
+                         @forelse ($categories ?? collect() as $category)
+                             <a class="group relative min-h-52 overflow-hidden rounded-2xl bg-white p-5" href="{{ route('categories.show', $category) }}"><div class="absolute inset-0 bg-zinc-200 opacity-60"></div><span class="relative text-xl font-bold">{{ $category->name }}</span></a>
+                         @empty
+                             <p class="col-span-3 text-center text-sm text-zinc-500">Belum ada kategori.</p>
+                         @endforelse
                     </div>
                 </div>
             </section>

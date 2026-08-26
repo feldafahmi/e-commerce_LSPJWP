@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SellerManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,3 +28,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::middleware('auth')->prefix('penjual')->name('seller.')->group(function () {
+    Route::get('/produk', [SellerManagementController::class, 'products'])->name('products');
+    Route::get('/order', [SellerManagementController::class, 'orders'])->name('orders');
+});

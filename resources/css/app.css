@@ -7,3 +7,13 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+    .auth-input {
+        @apply w-full rounded-full bg-zinc-100 px-5 py-3.5 text-sm outline-none transition placeholder:text-zinc-400 focus:bg-white focus:ring-2 focus:ring-black;
+    }
+
+    .auth-button {
+        @apply flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3.5 text-sm font-bold text-white transition hover:bg-zinc-700;
+    }
+}
